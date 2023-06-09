@@ -23,7 +23,7 @@ public class BrickBreaker extends Game {
 
 	// Fields:
 	private final int BALL_SIZE = 10;
-	private int health = 3, level = 0, curScore = 0, brickSize = 5;
+	private int health = 3, level = 1, curScore = 0, brickSize = 5;
 	private double velocity = (rand.nextDouble() + 1) * (rand.nextInt(2) == 1 ? 1 : -1);
 
 	private final int PAD_START_WIDTH = 40, PAD_THICKNESS = 6, PAD_OFFSET = 20;
@@ -56,10 +56,22 @@ public class BrickBreaker extends Game {
 				getFieldHeight() - PAD_OFFSET, PAD_THICKNESS, PAD_START_WIDTH);
 		add(player);
 
-		// Levels of bricks, which are al
-			// Level 1
-		Brick l1b1 = new Brick(0, 0, BRICK_WIDTH, BRICK_HEIGHT, 3);
+		// Levels of bricks, which are all added to their respective arrays below.
+		// "lxby" stands for "level #x brick #y".
+			// Level 1:
 
+		Brick l1b1 = new Brick(0, 0, BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l1b2 = new Brick(BRICK_WIDTH + 2, 0, BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l1b3 = new Brick(2 * (BRICK_WIDTH + 2), 0, BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l1b4 = new Brick(3 * (BRICK_WIDTH + 2), 0, BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l1b5 = new Brick(5 * (BRICK_WIDTH + 2), 0, BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l1b6 = new Brick(6 * (BRICK_WIDTH + 2), 0, BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l1b7 = new Brick(7 * (BRICK_WIDTH + 2), 0, BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l1b8 = new Brick(8 * (BRICK_WIDTH + 2), 0, BRICK_WIDTH, BRICK_HEIGHT, 3);
+		level1Bricks = new Brick[] {l1b1, l1b2, l1b3, l1b4, l1b5, l1b6, l1b7, l1b8};
+		for (Brick b: level1Bricks) {
+			add(b);
+		}
 	}
 
 	/**
@@ -102,7 +114,16 @@ public class BrickBreaker extends Game {
 
 		// Collision with paddle:
 		if (player.collides(b)) {
-			bounceBall(b);
+			bounceBall(b, true);
+
+			// Moving right:
+			if (DKeyPressed() && player.getX() < getFieldWidth() - player.getWidth()) {
+				b.setXMov(b.getXMov() + rand.nextDouble(0.2, 0.7));
+			}
+			// Moving left:
+			if (AKeyPressed() && player.getX() > 0) {
+				b.setXMov(b.getXMov() - rand.nextDouble(0.2, 0.7));
+			}
 		}
 
 	}
@@ -111,8 +132,9 @@ public class BrickBreaker extends Game {
 	/**
 	 * "Bounces" the ball by manipulating the direction of its x- and/or y-components.
 	 */
-	public void bounceBall(Ball b) {
-		b.setYMov(Math.abs(b.getYMov())*-1);
+	public void bounceBall(Ball b, boolean direction) {
+		//if direction is positive, then the ball should go up, and down if it is false
+		b.setYMov(Math.abs(b.getYMov()) * (direction ? -1 : 1));
 	}
 
 	public void reset() {
