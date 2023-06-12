@@ -4,8 +4,7 @@
  * modified and redistributed under educational fair use.
  */
 
-import java.awt.Color;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -23,12 +22,10 @@ import javax.swing.JMenuItem;
 import javax.swing.Timer;
 
 /**
- * An abstract Game class which can be built into Pong.<br>
- * <br>
- * The default controls are for "Player 1" to move left and right with the 
- * 'Z' and 'X' keys, and "Player 2" to move left and right with the 'N' and
- * 'M' keys.<br>
- * <br>
+ * An abstract Game class which can be built into Pong.
+ * The default controls are for the player to move left and right with the
+ * 'A' and 'D' keys, respectively.
+ *
  * Before the Game begins, the <code>setup</code> method is executed. This will
  * allow the programmer to add any objects to the game and set them up. When the
  * game begins, the <code>act</code> method is executed every millisecond. This
@@ -42,6 +39,7 @@ public abstract class Game extends JFrame {
 	private boolean isPaused = true;
 	private ArrayList _ObjectList = new ArrayList();
 	private Timer _t;
+	private JDialog pauseDialog;
 	
 	/**
 	 * <code>true</code> if the 'D' key is being held down
@@ -52,6 +50,11 @@ public abstract class Game extends JFrame {
 	 * <code>true</code> if the 'A' key is being held down.
 	 */
 	private boolean playerLeft = false;
+
+	/**
+	 * <code>true</code> if the Escape key is being held down.
+	 */
+	private boolean playerPaused = false;
 	
 	/**
 	 * Returns <code>true</code> if the 'D' key is being pressed down
@@ -69,6 +72,15 @@ public abstract class Game extends JFrame {
 	 */
 	public boolean AKeyPressed() {
 		return playerLeft;
+	}
+
+	/**
+	 * Returns <code>true</code> if the Escape key is being pressed down
+	 *
+	 * @return <code>true</code> if the Escape key is being pressed down
+	 */
+	public boolean EscapeKeyPressed() {
+		return playerPaused;
 	}
 	
 	/**
@@ -207,10 +219,10 @@ public abstract class Game extends JFrame {
 				switch (pressed) {
 					case 'D' : playerRight = true; break;
 					case 'A' : playerLeft = true; break;
-					default:
-						if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-							pauseGame();
-						}
+					case KeyEvent.VK_ESCAPE:
+						togglePause();
+						playerPaused = true;
+						break;
 				}
 			}
 	
@@ -247,27 +259,42 @@ public abstract class Game extends JFrame {
 	}
 	
 	/**
-	 * Displays a dialog that says "Player 1 Wins!"
+	 * Displays a dialog that says "Game Paused"
 	 *
 	 */
-	public void playerWins() {
-		_WinDialog d = new _WinDialog(this, "Victory!");
-		d.setVisible(true);
+	public void playerPauses() {
+		// Creating the pause dialog:
+		// TODO: FIX ERROR in this
+		pauseDialog = new JDialog(this, "Game Paused", Dialog.ModalityType.APPLICATION_MODAL);
+		pauseDialog.setSize(300, 200);
+		pauseDialog.setLocationRelativeTo(null);
+		pauseDialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+		// Adding the resume button to the pause dialog:
+		JButton resumeButton = new JButton("Return to Game");
+		resumeButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				togglePause();
+			}
+		});
+		pauseDialog.add(resumeButton);
 	}
 
 	/**
 	 * Pauses or resumes the game based on its state.
 	 */
-	public void pauseGame() {
-		if (!isPaused) {
-			isPaused = true;
+	public void togglePause() {
+		playerPaused = !playerPaused; // Update the playerPaused variable
+
+		if (playerPaused) {
 			stopGame();
-		}
-		else {
-			isPaused = false;
+			//pauseDialog.setVisible(true);
+		} else {
 			startGame();
+			//pauseDialog.setVisible(false);
 		}
 	}
+
 	
 	/**
 	 * Gets the pixel width of the visible playing field

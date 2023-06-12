@@ -97,7 +97,7 @@ public class BrickBreaker extends Game {
 		// Y-collision with the ceiling and disappear at bottom:
 		// Collision with the roof.
 		if (b.getY() <= 0) {
-			b.setY(0);
+			b.setY(1);
 			b.setYMov(b.getYMov()*-1);
 		}
 		// Hits the floor case.
@@ -115,7 +115,7 @@ public class BrickBreaker extends Game {
 			player.moveRight();
 		}
 
-		// Collision with paddle with psuedo-physics:
+		// Collision with paddle with pseudo-physics:
 
 		// if paddle is going left, SUBTRACT slight random factor from ball's x-movement.
 		// if paddle is going right, ADD slight random factor to ball's x-movement.
@@ -158,8 +158,13 @@ public class BrickBreaker extends Game {
 				}
 			}
 		}
-
 		repaint();
+
+		// Pausing the game:
+		if (EscapeKeyPressed()) {
+			playerPauses();
+			togglePause();
+		}
 	}
 
 
@@ -171,6 +176,9 @@ public class BrickBreaker extends Game {
 		b.setYMov(Math.abs(b.getYMov()) * (direction ? -1 : 1));
 	}
 
+	/**
+	 * Resets the game by teleporting the ball to the middle of the screen with a new random velocity.
+	 */
 	public void reset() {
 		b.setX(getFieldWidth() / 2);
 		b.setY(getFieldHeight() / 2);
