@@ -10,8 +10,11 @@
  */
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Random;
 
 public class Ball extends GameObject {
+    Random rand = new Random();
+
     // State Variables
     private int xSpawn, ySpawn;
     private double xMov, yMov;
@@ -29,16 +32,16 @@ public class Ball extends GameObject {
         xSpawn = x;
         ySpawn = y;
         this.c = c;
-        xMov = velocity;
-        yMov = velocity;
+        xMov = velocity + rand.nextDouble(0.2, 0.7);
+        yMov = velocity + rand.nextDouble(0.2, 0.7);
     }
 
     /**
      * Tells the game what to do before the actual play begins.
      */
     public void act() {
-        setX((int) (getX() + xMov + 0.5));
-        setY((int) (getY() + yMov + 0.5));
+        setX((int) (getX() + (getX() > 0 ? xMov : -xMov)));
+        setY((int) (getY() + (getY() > 0 ? yMov : -yMov)));
     }
 
     /**
