@@ -220,7 +220,7 @@ public abstract class Game extends JFrame {
 					case 'D' : playerRight = true; break;
 					case 'A' : playerLeft = true; break;
 					case KeyEvent.VK_ESCAPE:
-						togglePause();
+						if (playerPaused) togglePause();
 						playerPaused = true;
 						break;
 				}
@@ -264,20 +264,26 @@ public abstract class Game extends JFrame {
 	 */
 	public void playerPauses() {
 		// Creating the pause dialog:
-		// TODO: FIX ERROR in this
-		pauseDialog = new JDialog(this, "Game Paused", Dialog.ModalityType.APPLICATION_MODAL);
+		pauseDialog = new JDialog((Frame) null, "Game Paused", Dialog.ModalityType.APPLICATION_MODAL);
 		pauseDialog.setSize(300, 200);
 		pauseDialog.setLocationRelativeTo(null);
-		pauseDialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		pauseDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
-		// Adding the resume button to the pause dialog:
+		// Adding buttons to the pause dialog:
 		JButton resumeButton = new JButton("Return to Game");
+		JButton soundButton = new JButton("Toggle Sound ON/OFF");
+		JButton quitButton = new JButton("Quit Game");
+
+		// Adding their corresponding action listeners:
 		resumeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				togglePause();
+				;
 			}
 		});
 		pauseDialog.add(resumeButton);
+
+		// Make the dialog visible:
+		pauseDialog.setVisible(true);
 	}
 
 	/**
@@ -288,10 +294,10 @@ public abstract class Game extends JFrame {
 
 		if (playerPaused) {
 			stopGame();
-			//pauseDialog.setVisible(true);
+			pauseDialog.setVisible(true);
 		} else {
 			startGame();
-			//pauseDialog.setVisible(false);
+			pauseDialog.setVisible(false);
 		}
 	}
 
