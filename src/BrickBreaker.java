@@ -42,6 +42,7 @@ public class BrickBreaker extends Game {
 
 	// Ball:
 	private Ball b;
+	private int currBallX, currBallY = 0;
 
 	/**
 	 * Tells the game what to do before the actual play begins.
@@ -75,6 +76,7 @@ public class BrickBreaker extends Game {
 		for (Brick b: level1Bricks) {
 			add(b);
 		}
+
 	}
 
 	/**
@@ -162,9 +164,13 @@ public class BrickBreaker extends Game {
 
 		// Pausing the game:
 		if (EscapeKeyPressed()) {
-			playerPauses();
 			togglePause();
+			playerPauses();
 		}
+
+		// Storing the immediate previous ball position:
+		currBallX = b.getX();
+		currBallY = b.getY();
 	}
 
 

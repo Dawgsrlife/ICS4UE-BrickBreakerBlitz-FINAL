@@ -13,13 +13,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.Timer;
+import javax.swing.*;
 
 /**
  * An abstract Game class which can be built into Pong.
@@ -224,9 +218,6 @@ public abstract class Game extends JFrame {
 						playerLeft = true;
 						break;
 					case KeyEvent.VK_ESCAPE:
-						if (playerPaused) {
-							togglePause();
-						}
 						playerPaused = true;
 						break;
 				}
@@ -235,8 +226,12 @@ public abstract class Game extends JFrame {
 			public void keyReleased(KeyEvent e) {
 				char released = Character.toUpperCase(e.getKeyChar());
 				switch (released) {
-					case 'D' : playerRight = false; break;
-					case 'A' : playerLeft = false; break;
+					case 'D':
+						playerRight = false;
+						break;
+					case 'A':
+						playerLeft = false;
+						break;
 				}
 			}
 		});
@@ -271,33 +266,43 @@ public abstract class Game extends JFrame {
 	public void playerPauses() {
 		// Creating the pause dialog:
 		pauseDialog = new JDialog((Frame) null, "Game Paused", Dialog.ModalityType.APPLICATION_MODAL);
-		pauseDialog.setSize(300, 200);
-		pauseDialog.setLocationRelativeTo(null);
-		pauseDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		pauseDialog.setUndecorated(true);
 
-		// Adding buttons to the pause dialog:
+		// Setting the layout for the dialog content pane:
+		pauseDialog.setLayout(new BorderLayout());
+
+		// Creating the buttons for the pause dialog:
+		JPanel buttonPanel = new JPanel(new FlowLayout());
+
+		// Creating the buttons for the pause dialog:
 		JButton resumeButton = new JButton("Return to Game");
 		JButton soundButton = new JButton("Toggle Sound ON/OFF");
 		JButton quitButton = new JButton("Quit Game");
 
-		// Adding their corresponding action listeners:
+		// Adding action listeners to the buttons:
 		resumeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (playerPaused) {
-					togglePause();
 					playerPaused = false;
+					togglePause();
 				}
 				pauseDialog.dispose(); // Close the dialog
 			}
 		});
 
-		// Add buttons to the dialog
-		pauseDialog.getContentPane().setLayout(new FlowLayout());
-		pauseDialog.getContentPane().add(resumeButton);
-		pauseDialog.getContentPane().add(soundButton);
-		pauseDialog.getContentPane().add(quitButton);
+		// Adding buttons to the button panel
+		buttonPanel.add(resumeButton);
+		buttonPanel.add(soundButton);
+		buttonPanel.add(quitButton);
 
-		// Make the dialog visible:
+		// Adding the button panel to the centre of the dialog
+		pauseDialog.add(buttonPanel, BorderLayout.CENTER);
+
+		// Making the dialog pack its components and center on the screen
+		pauseDialog.pack();
+		pauseDialog.setLocationRelativeTo(null);
+
+		// Making the dialog visible:
 		pauseDialog.setVisible(true);
 	}
 
@@ -309,14 +314,11 @@ public abstract class Game extends JFrame {
 	public void togglePause() {
 		if (playerPaused) {
 			stopGame();
-			pauseDialog.setVisible(false);
 		} else {
 			startGame();
 		}
 
-		playerPaused = !playerPaused; // Toggle the playerPaused flag
 	}
-
 
 	/**
 	 * Gets the pixel width of the visible playing field
