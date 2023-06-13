@@ -30,8 +30,8 @@ import javax.swing.Timer;
  * allow the programmer to add any objects to the game and set them up. When the
  * game begins, the <code>act</code> method is executed every millisecond. This
  * will allow the programmer to check for user input and respond to it.
- * 
- *  @see GameObject 
+ *
+ *  @see GameObject
  */
 public abstract class Game extends JFrame {
 	private boolean _isSetup = false;
@@ -40,12 +40,12 @@ public abstract class Game extends JFrame {
 	private ArrayList _ObjectList = new ArrayList();
 	private Timer _t;
 	private JDialog pauseDialog;
-	
+
 	/**
 	 * <code>true</code> if the 'D' key is being held down
 	 */
 	private boolean playerRight = false;
-	
+
 	/**
 	 * <code>true</code> if the 'A' key is being held down.
 	 */
@@ -55,19 +55,19 @@ public abstract class Game extends JFrame {
 	 * <code>true</code> if the Escape key is being held down.
 	 */
 	private boolean playerPaused = false;
-	
+
 	/**
 	 * Returns <code>true</code> if the 'D' key is being pressed down
-	 * 
+	 *
 	 * @return <code>true</code> if the 'D' key is being pressed down
 	 */
 	public boolean DKeyPressed() {
 		return playerRight;
 	}
-	
+
 	/**
 	 * Returns <code>true</code> if the 'A' key is being pressed down
-	 * 
+	 *
 	 * @return <code>true</code> if the 'A' key is being pressed down
 	 */
 	public boolean AKeyPressed() {
@@ -82,27 +82,27 @@ public abstract class Game extends JFrame {
 	public boolean EscapeKeyPressed() {
 		return playerPaused;
 	}
-	
+
 	/**
 	 * When implemented, this will allow the programmer to initialize the game
 	 * before it begins running
-	 * 
+	 *
 	 * Adding objects to the game and setting their initial positions should be
 	 * done here.
-	 * 
+	 *
 	 * @see GameObject
 	 */
 	public abstract void setup();
-	
+
 	/**
 	 * When the game begins, this method will automatically be executed every
 	 * millisecond
-	 * 
-	 * This may be used as a control method for checking user input and 
+	 *
+	 * This may be used as a control method for checking user input and
 	 * collision between any game objects
 	 */
 	public abstract void act();
-	
+
 	/**
 	 * Sets up the game and any objects.
 	 *
@@ -113,18 +113,18 @@ public abstract class Game extends JFrame {
 		getContentPane().setBackground(Color.black);
 		setup();
 		for (int i = 0; i < _ObjectList.size(); i++) {
-				GameObject o = (GameObject)_ObjectList.get(i);
-				o.repaint();
+			GameObject o = (GameObject)_ObjectList.get(i);
+			o.repaint();
 		}
 		_t.start();
 	}
-	
+
 	/**
 	 * Adds a game object to the screen
-	 * 
+	 *
 	 * Any added objects will have their <code>act</code> method called every
 	 * millisecond
-	 * 
+	 *
 	 * @param o		the <code>GameObject</code> to add.
 	 * @see	GameObject#act()
 	 */
@@ -132,10 +132,10 @@ public abstract class Game extends JFrame {
 		_ObjectList.add(o);
 		getContentPane().add(o);
 	}
-	
+
 	/**
 	 * Removes a game object from the screen
-	 * 
+	 *
 	 * @param o		the <code>GameObject</code> to remove
 	 * @see	GameObject
 	 */
@@ -143,13 +143,13 @@ public abstract class Game extends JFrame {
 		_ObjectList.remove(o);
 		getContentPane().remove(o);
 	}
-	
+
 	/**
 	 * Sets the millisecond delay between calls to <code>act</code> methods.
-	 * 
+	 *
 	 * Increasing the delay will make the game run "slower." The default delay
 	 * is 1 millisecond.
-	 * 
+	 *
 	 * @param delay	the number of milliseconds between calls to <code>act</code>
 	 * @see Game#act()
 	 * @see GameObject#act()
@@ -157,75 +157,81 @@ public abstract class Game extends JFrame {
 	public void setDelay(int delay) {
 		_t.setDelay(delay);
 	}
-	
+
 	/**
 	 * Sets the background color of the playing field
-	 * 
+	 *
 	 * The default color is black
-	 * 
+	 *
 	 * @see java.awt.Color
 	 */
 	public void setBackground(Color c) {
 		getContentPane().setBackground(c);
 	}
-	
+
 	/**
 	 * The default constructor for the game.
-	 * 
+	 *
 	 * The default window size is 400x400
 	 */
 	public Game() {
 		setSize(400, 400);
 		getContentPane().setBackground(Color.black);
 		getContentPane().setLayout(null);
-        JMenuBar menuBar = new JMenuBar();
-        JMenu menuFile = new JMenu("File");
-        JMenuItem menuFileExit = new JMenuItem("Exit");
-        menuBar.add(menuFile);
-        menuFile.add(menuFileExit);
-        setJMenuBar(menuBar);
-        setTitle("BrickBreaker Blitz");
-               
-        // Add window listener.
-        addWindowListener (
-            new WindowAdapter() {
-                public void windowClosing(WindowEvent e) {
-                    System.exit(0);
-                }
-            }
-        );
-       menuFileExit.addActionListener( 
-       		new ActionListener() {
-       			public void actionPerformed(ActionEvent e) {
-       				System.exit(0);
-       			}
-       		}
-       	);
-       _t = new Timer(1, new ActionListener() {
-       		public void actionPerformed(ActionEvent e) {
-   				act();
-   				for (int i = 0; i < _ObjectList.size(); i++) {
-   					GameObject o = (GameObject)_ObjectList.get(i);
-   					o.act();
-   				}
-       		}
-       });
-       addKeyListener(new KeyListener() {
+		JMenuBar menuBar = new JMenuBar();
+		JMenu menuFile = new JMenu("File");
+		JMenuItem menuFileExit = new JMenuItem("Exit");
+		menuBar.add(menuFile);
+		menuFile.add(menuFileExit);
+		setJMenuBar(menuBar);
+		setTitle("BrickBreaker Blitz");
+
+		// Add window listener.
+		addWindowListener (
+				new WindowAdapter() {
+					public void windowClosing(WindowEvent e) {
+						System.exit(0);
+					}
+				}
+		);
+		menuFileExit.addActionListener(
+				new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						System.exit(0);
+					}
+				}
+		);
+		_t = new Timer(1, new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				act();
+				for (int i = 0; i < _ObjectList.size(); i++) {
+					GameObject o = (GameObject)_ObjectList.get(i);
+					o.act();
+				}
+			}
+		});
+		addKeyListener(new KeyListener() {
 			public void keyTyped(KeyEvent e) {
 			}
-	
+
 			public void keyPressed(KeyEvent e) {
 				char pressed = Character.toUpperCase(e.getKeyChar());
 				switch (pressed) {
-					case 'D' : playerRight = true; break;
-					case 'A' : playerLeft = true; break;
+					case 'D':
+						playerRight = true;
+						break;
+					case 'A':
+						playerLeft = true;
+						break;
 					case KeyEvent.VK_ESCAPE:
-						if (playerPaused) togglePause();
+						if (playerPaused) {
+							togglePause();
+						}
 						playerPaused = true;
 						break;
 				}
 			}
-	
+
 			public void keyReleased(KeyEvent e) {
 				char released = Character.toUpperCase(e.getKeyChar());
 				switch (released) {
@@ -233,31 +239,31 @@ public abstract class Game extends JFrame {
 					case 'A' : playerLeft = false; break;
 				}
 			}
-       }); 
-    }
-	
+		});
+	}
+
 	/**
 	 * Starts updates to the game
 	 *
 	 * The game should automatically start.
-	 * 
+	 *
 	 * @see Game#stopGame()
 	 */
 	public void startGame() {
 		_t.start();
 	}
-	
+
 	/**
 	 * Stops updates to the game
 	 *
 	 * This can act like a "pause" method
-	 * 
+	 *
 	 * @see Game#startGame()
 	 */
 	public void stopGame() {
 		_t.stop();
 	}
-	
+
 	/**
 	 * Displays a dialog that says "Game Paused"
 	 *
@@ -277,49 +283,59 @@ public abstract class Game extends JFrame {
 		// Adding their corresponding action listeners:
 		resumeButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				;
+				if (playerPaused) {
+					togglePause();
+					playerPaused = false;
+				}
+				pauseDialog.dispose(); // Close the dialog
 			}
 		});
-		pauseDialog.add(resumeButton);
+
+		// Add buttons to the dialog
+		pauseDialog.getContentPane().setLayout(new FlowLayout());
+		pauseDialog.getContentPane().add(resumeButton);
+		pauseDialog.getContentPane().add(soundButton);
+		pauseDialog.getContentPane().add(quitButton);
 
 		// Make the dialog visible:
 		pauseDialog.setVisible(true);
 	}
 
+
+
 	/**
 	 * Pauses or resumes the game based on its state.
 	 */
 	public void togglePause() {
-		playerPaused = !playerPaused; // Update the playerPaused variable
-
 		if (playerPaused) {
 			stopGame();
-			pauseDialog.setVisible(true);
+			pauseDialog.setVisible(false);
 		} else {
 			startGame();
-			pauseDialog.setVisible(false);
 		}
+
+		playerPaused = !playerPaused; // Toggle the playerPaused flag
 	}
 
-	
+
 	/**
 	 * Gets the pixel width of the visible playing field
-	 * 
+	 *
 	 * @return	a width in pixels
 	 */
 	public int getFieldWidth() {
 		return getContentPane().getBounds().width;
 	}
-	
+
 	/**
 	 * Gets the pixel height of the visible playing field
-	 * 
+	 *
 	 * @return a height in pixels
 	 */
 	public int getFieldHeight() {
 		return getContentPane().getBounds().height;
 	}
-	
+
 	class _WinDialog extends JDialog {
 		JButton ok = new JButton("OK");
 		_WinDialog(JFrame owner, String title) {
@@ -333,6 +349,6 @@ public abstract class Game extends JFrame {
 					_WinDialog.this.setVisible(false);
 				}
 			});
-		}		
+		}
 	}
 }
