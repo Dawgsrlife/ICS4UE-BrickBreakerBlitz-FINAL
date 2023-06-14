@@ -50,12 +50,27 @@ public class Brick extends GameObject {
     }
 
     /**
+     * Sets the health of the brick
+     * @param n --> The health of the brick
+     */
+    public void setHealth(int n) {
+        health = n;
+    }
+
+    /**
+     * getter for the hp of the brick
+     */
+    public int getHealth() {
+        return health;
+    }
+
+    /**
      * Overrided method that paints a circle (round rectangle) to display the powerup.
      * @param g The <code>Graphics</code> context in which to paint.
      */
     public void paint(Graphics g) {
         g.setColor(c);
-        g.fillRoundRect(0, 0, getWidth(), getHeight(), 3, 3);
+        g.fillRect(0, 0, getWidth(), getHeight());
     }
 
 }

@@ -32,8 +32,8 @@ public class Ball extends GameObject {
         xSpawn = x;
         ySpawn = y;
         this.c = c;
-        xMov = velocity + rand.nextDouble(0.2, 0.7);
-        yMov = velocity + rand.nextDouble(0.2, 0.7);
+        xMov = Math.abs(velocity + rand.nextDouble(0.2, 0.7)) * velocity > 0 ? 1 : -1;
+        yMov = Math.abs(velocity + rand.nextDouble(0.2, 0.7)) * velocity > 0 ? 1 : -1;
     }
 
     /**

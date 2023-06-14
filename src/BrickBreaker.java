@@ -9,8 +9,7 @@
 
 import java.awt.*;
 import java.util.Random;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.lang.Math;
 
 
 /**
@@ -38,7 +37,6 @@ public class BrickBreaker extends Game {
 
 	// Bricks — Arrays of bricks for each level:
 	private Brick[] level1Bricks, level2Bricks, level3Bricks;
-//	private ArrayList<Brick> level1Bricks, level2Bricks, level3Bricks;
 
 	// Ball:
 	private Ball b;
@@ -71,9 +69,73 @@ public class BrickBreaker extends Game {
 				l1b6 = new Brick(5 * (BRICK_WIDTH + 2), 0, BRICK_WIDTH, BRICK_HEIGHT, 1),
 				l1b7 = new Brick(6 * (BRICK_WIDTH + 2), 0, BRICK_WIDTH, BRICK_HEIGHT, 1),
 				l1b8 = new Brick(7 * (BRICK_WIDTH + 2), 0, BRICK_WIDTH, BRICK_HEIGHT, 1);
-//		level1Bricks = new ArrayList<>(Arrays.asList(l1b1, l1b2, l1b3, l1b4, l1b5, l1b6, l1b7, l1b8));
 		level1Bricks = new Brick[] {l1b1, l1b2, l1b3, l1b4, l1b5, l1b6, l1b7, l1b8};
-		for (Brick b: level1Bricks) {
+//		for (Brick b: level1Bricks) {
+//			add(b);
+//		}
+		// Level 2:
+		Brick l2b1 = new Brick(BRICK_WIDTH + 2, 3 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 2),
+				l2b2 = new Brick(2 * (BRICK_WIDTH + 2), 3 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 2),
+				l2b3 = new Brick(3 * (BRICK_WIDTH + 2), 3 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 2),
+				l2b4 = new Brick(4 * (BRICK_WIDTH + 2), 3 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 2),
+				l2b5 = new Brick(5 * (BRICK_WIDTH + 2), 3 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 2),
+				l2b6 = new Brick(6 * (BRICK_WIDTH + 2), 3 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 2),
+				l2b7 = new Brick(7 * (BRICK_WIDTH + 2), 3 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 2),
+				l2b8 = new Brick(8 * (BRICK_WIDTH + 2), 3 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 2),
+				l2b9 = new Brick(BRICK_WIDTH + 2, 6 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 2),
+				l2b10 = new Brick(2 * (BRICK_WIDTH + 2), 6 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 2),
+				l2b11 = new Brick(3 * (BRICK_WIDTH + 2), 6 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 2),
+				l2b12 = new Brick(4 * (BRICK_WIDTH + 2), 6 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 2),
+				l2b13 = new Brick(5 * (BRICK_WIDTH + 2), 6 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 2),
+				l2b14 = new Brick(6 * (BRICK_WIDTH + 2), 6 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 2),
+				l2b15 = new Brick(7 * (BRICK_WIDTH + 2), 6 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 2),
+				l2b16 = new Brick(8 * (BRICK_WIDTH + 2), 6 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 2),
+				l2b17 = new Brick(BRICK_WIDTH + 2, 9 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 2),
+				l2b18 = new Brick(2 * (BRICK_WIDTH + 2), 9 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 2),
+				l2b19 = new Brick(3 * (BRICK_WIDTH + 2), 9 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 2),
+				l2b20 = new Brick(4 * (BRICK_WIDTH + 2), 9 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 2),
+				l2b21 = new Brick(5 * (BRICK_WIDTH + 2), 9 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 2),
+				l2b22 = new Brick(6 * (BRICK_WIDTH + 2), 9 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 2),
+				l2b23 = new Brick(7 * (BRICK_WIDTH + 2), 9 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 2),
+				l2b24 = new Brick(8 * (BRICK_WIDTH + 2), 9 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 2);
+		level2Bricks = new Brick[] {l2b1, l2b2, l2b3, l2b4, l2b5, l2b6, l2b7, l2b8,
+				l2b9, l2b10, l2b11, l2b12, l2b13, l2b14, l2b15, l2b16,
+				l2b17, l2b18, l2b19, l2b20, l2b21, l2b22, l2b23, l2b24};
+//		for (Brick b: level2Bricks) {
+//			add(b);
+//		}
+		Brick l3b1 = new Brick(BRICK_WIDTH + 2, 3 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l3b2 = new Brick(3 * (BRICK_WIDTH + 2), 3 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l3b3 = new Brick(5 * (BRICK_WIDTH + 2), 3 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l3b4 = new Brick(7 * (BRICK_WIDTH + 2), 3 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l3b5 = new Brick(9 * (BRICK_WIDTH + 2), 3 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l3b6 = new Brick(2 * (BRICK_WIDTH + 2), 5 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l3b7 = new Brick(4 * (BRICK_WIDTH + 2), 5 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l3b8 = new Brick(6 * (BRICK_WIDTH + 2), 5 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l3b9 = new Brick(8 * (BRICK_WIDTH + 2), 5 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l3b10 = new Brick(BRICK_WIDTH + 2, 7 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l3b11 = new Brick(3 * (BRICK_WIDTH + 2), 7 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l3b12 = new Brick(5 * (BRICK_WIDTH + 2), 7 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l3b13 = new Brick(7 * (BRICK_WIDTH + 2), 7 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l3b14 = new Brick(9 * (BRICK_WIDTH + 2), 7 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l3b15 = new Brick(2 * (BRICK_WIDTH + 2), 9 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l3b16 = new Brick(4 * (BRICK_WIDTH + 2), 9 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l3b17 = new Brick(6 * (BRICK_WIDTH + 2), 9 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l3b18 = new Brick(8 * (BRICK_WIDTH + 2), 9 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l3b19 = new Brick(BRICK_WIDTH + 2, 11 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l3b20 = new Brick(3 * (BRICK_WIDTH + 2), 11 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l3b21 = new Brick(5 * (BRICK_WIDTH + 2), 11 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l3b22 = new Brick(7 * (BRICK_WIDTH + 2), 11 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l3b23 = new Brick(9 * (BRICK_WIDTH + 2), 11 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l3b24 = new Brick(2 * (BRICK_WIDTH + 2), 13 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l3b25 = new Brick(4 * (BRICK_WIDTH + 2), 13 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l3b26 = new Brick(6 * (BRICK_WIDTH + 2), 13 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 3),
+				l3b27 = new Brick(8 * (BRICK_WIDTH + 2), 13 * (BRICK_HEIGHT + 2), BRICK_WIDTH, BRICK_HEIGHT, 3);
+		level3Bricks = new Brick[] {l3b1, l3b2, l3b3, l3b4, l3b5, l3b6, l3b7, l3b8, l3b9,
+				 l3b10, l3b11, l3b12, l3b13, l3b14, l3b15, l3b16, l3b17, l3b18,
+				 l3b19, l3b20, l3b21, l3b22, l3b23, l3b24, l3b25, l3b26, l3b27};
+		level = 3;
+		for (Brick b: level3Bricks) {
 			add(b);
 		}
 
@@ -83,17 +145,23 @@ public class BrickBreaker extends Game {
 	 * Tells the playing field what to do from one moment to the next.
 	 */
 	public void act() {
+		// The ball should never be only moving in one component's direction.
+		if (currBallX == b.getX()) {
+			b.setXMov(velocity);
+		} else if (currBallY == b.getY()) {
+			b.setYMov(velocity);
+		}
 
 		// X-collision with the lateral bounds:
 		// Left wall collision.
 		if (b.getX() <= 0) {
-			b.setX(0);
-			b.setXMov(b.getXMov()*-1);
+			b.setX(1);
+			b.setXMov(Math.abs(b.getXMov()));
 		}
 		// Right wall collision.
 		if (b.getX() >= getFieldWidth() - BALL_SIZE) {
 			b.setX(getFieldWidth() - BALL_SIZE);
-			b.setXMov(b.getXMov()*-1);
+			b.setXMov(Math.abs(b.getXMov())*-1);
 		}
 
 		// Y-collision with the ceiling and disappear at bottom:
@@ -134,30 +202,50 @@ public class BrickBreaker extends Game {
 			}
 		}
 
-		// Collision with bricks:
-//		for (Brick brick: level1Bricks) {
-//			if (b.collides(brick)) {
-//				bounceBall(b, false);
-//				score++;
-//				brick.setHealth(brick.getHealth() - 1);
-//				if (brick.getHealth() <= 0){
-//					remove(brick);
-//					level1Bricks.remove(brick);
-//				}
-//			}
-//		}
-
-		for (Brick brick: level1Bricks) {
-			if (brick != null) {
-				if (b.collides(brick)) {
+		// Collision with Bricks:
+		for (Brick brick: level == 1 ? level1Bricks : level == 2 ? level2Bricks : level3Bricks) {
+			if (b.collides(brick) && brick.getHealth() > 0) {
+				//Bottom collision
+				if (b.getX() > brick.getX() && b.getX() < brick.getX() + BRICK_WIDTH &&
+						b.getY() > brick.getY() + BRICK_HEIGHT / 2) {
 					bounceBall(b, false);
 					score++;
 					brick.setHealth(brick.getHealth() - 1);
 					if (brick.getHealth() <= 0) {
 						remove(brick);
-						brick = null;
 					}
 				}
+				//Top collision
+				if (b.getX() > brick.getX() && b.getX() < brick.getX() + BRICK_WIDTH &&
+						b.getY() < brick.getY() + BRICK_HEIGHT / 2) {
+					bounceBall(b, true);
+					score++;
+					brick.setHealth(brick.getHealth() - 1);
+					if (brick.getHealth() <= 0) {
+						remove(brick);
+					}
+				}
+				//Left collision
+				if (b.getY() > brick.getY() && b.getY() < brick.getY() + BRICK_HEIGHT &&
+						b.getX() < brick.getX() + BRICK_HEIGHT / 2) {
+					b.setXMov(Math.abs(b.getXMov()) * -1);
+					score++;
+					brick.setHealth(brick.getHealth() - 1);
+					if (brick.getHealth() <= 0) {
+						remove(brick);
+					}
+				}
+				//Right collision
+				if (b.getY() > brick.getY() && b.getY() < brick.getY() + BRICK_HEIGHT &&
+						b.getX() > brick.getX() + BRICK_WIDTH / 2) {
+					b.setXMov(Math.abs(b.getXMov()));
+					score++;
+					brick.setHealth(brick.getHealth() - 1);
+					if (brick.getHealth() <= 0) {
+						remove(brick);
+					}
+				}
+				
 			}
 		}
 		repaint();
