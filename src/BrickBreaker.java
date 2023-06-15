@@ -10,6 +10,7 @@
 import java.awt.*;
 import java.util.Random;
 import java.lang.Math;
+import javax.swing.JLabel;
 
 
 /**
@@ -20,26 +21,30 @@ public class BrickBreaker extends Game {
 	// Tracks HP, Level, Current Score, Brick Size with fields
 	// Tracks Best Score with an external file so that it can be saved through multiple sessions
 
-	Random rand = new Random();
+	// Miscellaneous:
+	private Random rand = new Random();
 
-	// Fields:
-	private final int BALL_SIZE = 10;
-	private int health = 3, level = 1, curScore = 0, brickSize = 5;
-	private double velocity = (rand.nextDouble() + 1) * (rand.nextInt(2) == 1 ? 1 : -1);
+	// Player:
+	private int health = 3, level = 1, score, highScore = 0;
+	private boolean scored = false;
 
-	private final int PAD_START_WIDTH = 40, PAD_THICKNESS = 6, PAD_OFFSET = 20;
-
-	private final int BRICK_WIDTH = 35, BRICK_HEIGHT = 15;
-	private int score = 0;
+	// Statistic Labels:
+	private JLabel levelLabel, scoreLabel, highScoreLabel, healthLabel;
+	public int levelX, scoreX, highScoreX, livesX, textY;
 
 	// Paddle:
 	private Paddle player;
+	private final int PAD_START_WIDTH = 40, PAD_THICKNESS = 6, PAD_OFFSET = 50;
 
 	// Bricks — Arrays of bricks for each level:
 	private Brick[] level1Bricks, level2Bricks, level3Bricks;
+	private final int BRICK_WIDTH = 35, BRICK_HEIGHT = 15;
+	private int brickSize = 5;
 
 	// Ball:
 	private Ball b;
+	private double velocity = (rand.nextDouble() + 1) * (rand.nextInt(2) == 1 ? 1 : -1);
+	private final int BALL_SIZE = 10;
 	private int currBallX, currBallY = 0;
 
 	/**
@@ -139,6 +144,35 @@ public class BrickBreaker extends Game {
 			add(b);
 		}
 
+		calculateLabelCoordinates();
+
+		// Customizing the Level Label:
+		levelLabel = new JLabel("Level: " + level);
+		levelLabel.setForeground(Color.WHITE);
+		levelLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		levelLabel.setBounds(levelX, textY, 100, 30);
+		add(levelLabel);
+
+		// Customizing the Score Label:
+		scoreLabel = new JLabel("Score: " + score);
+		scoreLabel.setForeground(Color.WHITE);
+		scoreLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		scoreLabel.setBounds(scoreX, textY, 100, 30);
+		add(scoreLabel);
+
+		// Customizing the High Score Label:
+		highScoreLabel = new JLabel("High Score: " + highScore);
+		highScoreLabel.setForeground(Color.WHITE);
+		highScoreLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		highScoreLabel.setBounds(highScoreX, textY, 100, 30);
+		add(highScoreLabel);
+
+		// Customizing the Health Label:
+		healthLabel = new JLabel("HP/Lives: " + health);
+		healthLabel.setForeground(Color.WHITE);
+		healthLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
+		healthLabel.setBounds(livesX, textY, 100, 30);
+		add(healthLabel);
 	}
 
 	/**
@@ -204,48 +238,44 @@ public class BrickBreaker extends Game {
 
 		// Collision with Bricks:
 		for (Brick brick: level == 1 ? level1Bricks : level == 2 ? level2Bricks : level3Bricks) {
-			if (b.collides(brick) && brick.getHealth() > 0) {
-				//Bottom collision
-				if (b.getX() > brick.getX() && b.getX() < brick.getX() + BRICK_WIDTH &&
-						b.getY() > brick.getY() + BRICK_HEIGHT / 2) {
-					bounceBall(b, false);
-					score++;
-					brick.setHealth(brick.getHealth() - 1);
-					if (brick.getHealth() <= 0) {
-						remove(brick);
+			if (brick.collides(b) && brick.getHealth() > 0) {
+				boolean trueCollide = false; //check if it satisfies one of the four definitions of collision in brick breaker
+				// Top & Bottom collision:
+				if (b.getX() + BALL_SIZE / 2 > brick.getX() && b.getX() - BALL_SIZE / 2 < brick.getX() + BRICK_WIDTH) {
+					// Top:
+					if (b.getY() < brick.getY() - BRICK_HEIGHT / 2) {
+						b.setY(brick.getY() - BALL_SIZE - 1);
+						b.setYMov(Math.abs(b.getYMov()) * -1);
+						trueCollide = true;
+					}
+					// Bottom:
+					if (b.getY() > brick.getY() + BRICK_HEIGHT / 2) {
+						b.setY(brick.getY() + BRICK_HEIGHT + 1);
+						b.setYMov(Math.abs(b.getYMov()));
+						trueCollide = true;
 					}
 				}
-				//Top collision
-				if (b.getX() > brick.getX() && b.getX() < brick.getX() + BRICK_WIDTH &&
-						b.getY() < brick.getY() + BRICK_HEIGHT / 2) {
-					bounceBall(b, true);
-					score++;
-					brick.setHealth(brick.getHealth() - 1);
-					if (brick.getHealth() <= 0) {
-						remove(brick);
+				// Left and Right collision:
+				if (b.getY() + BALL_SIZE / 2 > brick.getY() && b.getY() - BALL_SIZE / 2 < brick.getY() + BRICK_HEIGHT) {
+					//Left
+					if (b.getX() < brick.getX() + BRICK_WIDTH / 2) {
+						b.setX(brick.getX() - BALL_SIZE - 1);
+						b.setXMov(Math.abs(b.getXMov()) * - 1);
+						trueCollide = true;
+					}
+					// Right:
+					if (b.getX() > brick.getX() + BRICK_WIDTH / 2) {
+						b.setX(brick.getX() + BRICK_WIDTH + 1);
+						b.setXMov(Math.abs(b.getXMov()));
+						trueCollide = true;
 					}
 				}
-				//Left collision
-				if (b.getY() > brick.getY() && b.getY() < brick.getY() + BRICK_HEIGHT &&
-						b.getX() < brick.getX() + BRICK_HEIGHT / 2) {
-					b.setXMov(Math.abs(b.getXMov()) * -1);
+				if (trueCollide) {
 					score++;
+					scoreLabel.setText("Score: " + score);
 					brick.setHealth(brick.getHealth() - 1);
-					if (brick.getHealth() <= 0) {
-						remove(brick);
-					}
+					if (brick.getHealth() <= 0) remove(brick);
 				}
-				//Right collision
-				if (b.getY() > brick.getY() && b.getY() < brick.getY() + BRICK_HEIGHT &&
-						b.getX() > brick.getX() + BRICK_WIDTH / 2) {
-					b.setXMov(Math.abs(b.getXMov()));
-					score++;
-					brick.setHealth(brick.getHealth() - 1);
-					if (brick.getHealth() <= 0) {
-						remove(brick);
-					}
-				}
-				
 			}
 		}
 		repaint();
@@ -279,6 +309,17 @@ public class BrickBreaker extends Game {
 		velocity = (rand.nextDouble() + 1) * (rand.nextInt(2) == 1 ? 1 : -1);
 		b.setXMov(velocity);
 		b.setYMov(velocity);
+	}
+
+	/**
+	 * Determines the initial label coordinates.
+	 */
+	public void calculateLabelCoordinates() {
+		levelX = (int) (getFieldWidth() * 0.2);
+		scoreX = (int) (getFieldWidth() * 0.4);
+		highScoreX = (int) (getFieldWidth() * 0.6);
+		livesX = (int) (getFieldWidth() * 0.8);
+		textY = getFieldHeight() - 37;
 	}
 
 	/**

@@ -169,15 +169,15 @@ public abstract class Game extends JFrame {
 	 * The default window size is 400x400
 	 */
 	public Game() {
-		setSize(400, 400);
-		getContentPane().setBackground(Color.black);
+		setSize(400, 500);
+		getContentPane().setBackground(Color.BLACK);
 		getContentPane().setLayout(null);
-		JMenuBar menuBar = new JMenuBar();
-		JMenu menuFile = new JMenu("File");
-		JMenuItem menuFileExit = new JMenuItem("Exit");
-		menuBar.add(menuFile);
-		menuFile.add(menuFileExit);
-		setJMenuBar(menuBar);
+//		JMenuBar menuBar = new JMenuBar();
+//		JMenu menuFile = new JMenu("File");
+//		JMenuItem menuFileExit = new JMenuItem("Exit");
+//		menuBar.add(menuFile);
+//		menuFile.add(menuFileExit);
+//		setJMenuBar(menuBar);
 		setTitle("BrickBreaker Blitz");
 
 		// Add window listener.
@@ -188,13 +188,13 @@ public abstract class Game extends JFrame {
 					}
 				}
 		);
-		menuFileExit.addActionListener(
-				new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						System.exit(0);
-					}
-				}
-		);
+//		menuFileExit.addActionListener(
+//				new ActionListener() {
+//					public void actionPerformed(ActionEvent e) {
+//						System.exit(0);
+//					}
+//				}
+//		);
 		_t = new Timer(1, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				act();
